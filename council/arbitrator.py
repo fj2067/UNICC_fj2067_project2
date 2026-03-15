@@ -1,14 +1,15 @@
-class SafetyCouncil:
+def council_decision(results):
 
-    def __init__(self, judges):
-        self.judges = judges
+    unsafe_votes = sum(r["verdict"] == "unsafe" for r in results)
 
-    def evaluate(self, text):
+    avg_score = sum(r["score"] for r in results) / len(results)
 
-        results = []
+    if unsafe_votes >= 2:
+        verdict = "UNSAFE"
+    else:
+        verdict = "SAFE"
 
-        for judge in self.judges:
-            result = judge.evaluate(text)
-            results.append(result)
-
-        return results
+    return {
+        "final_verdict": verdict,
+        "average_score": avg_score
+    }
