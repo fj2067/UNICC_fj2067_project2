@@ -1,19 +1,31 @@
-from judges.technical_judge import evaluate as tech_eval
-from judges.legal_judge import evaluate as legal_eval
-from judges.ethics_judge import evaluate as ethics_eval
-from council.arbitrator import combine
+from input_layer.loader import load_input
+from judges.technical_judge import SecurityJudge
+from judges.governance_judge import GovernanceJudge
+from judges.ethics_judge import EthicsJudge
+from council.moe_council import SafetyCouncil
+from council.arbitration import council_decision
+from output.report import generate_report
 
-def run():
+def main():
 
-    input_data = "sample AI output"
+    text = load_input()
 
-    r1 = tech_eval(input_data)
-    r2 = legal_eval(input_data)
-    r3 = ethics_eval(input_data)
+    judges = [
+        SecurityJudge(),
+        GovernanceJudge(),
+        EthicsJudge()
+    ]
 
-    final = combine([r1, r2, r3])
+    council = SafetyCouncil(judges)
 
-    print(final)
+    results = council.evaluate(text)
+
+    decision = council_decision(results)
+
+    report = generate_report(text, results, decision)
+
+    print("\nSAFETY REPORT")
+    print(report)
 
 if __name__ == "__main__":
-    run()
+    main()
