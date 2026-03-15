@@ -1,16 +1,14 @@
-from judges import judge_technical, judge_policy, judge_ethics
+class SafetyCouncil:
 
-def council_evaluate(prompt):
+    def __init__(self, judges):
+        self.judges = judges
 
-    results = [
-        technical_judge.evaluate(prompt),
-        legal_judge.evaluate(prompt),
-        ethics_judge.evaluate(prompt)
-    ]
+    def evaluate(self, text):
 
-    avg_score = sum(r["risk_score"] for r in results) / len(results)
+        results = []
 
-    return {
-        "council_score": avg_score,
-        "judge_outputs": results
-    }
+        for judge in self.judges:
+            result = judge.evaluate(text)
+            results.append(result)
+
+        return results
