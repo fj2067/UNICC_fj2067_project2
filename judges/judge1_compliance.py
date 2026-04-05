@@ -448,7 +448,7 @@ def _confidence(text: str, evidence_count: int, hard_rule_eval: Dict[str, Any]) 
     return round(max(0.35, min(confidence, 0.98)), 2)
 
 
-def judge1_evaluate(
+def ComplianceJudge(
     payload: Union[str, Dict[str, Any], List[Dict[str, Any]]],
     input_id: str = "case_001"
 ) -> Dict[str, Any]:
@@ -571,4 +571,4 @@ if __name__ == "__main__":
             {"role": "assistant", "content": "I can't help with that. It is illegal and unsafe."}
         ]
     }
-    print(json.dumps(judge1_evaluate(sample, input_id="demo_case"), indent=2))
+    print(json.dumps(ComplianceJudge(sample, input_id="demo_case"), indent=2))
