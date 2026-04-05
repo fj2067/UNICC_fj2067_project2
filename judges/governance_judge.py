@@ -1,4 +1,4 @@
-from judges.base_judge import BaseJudge
+from judges.base_types import BaseJudge
 
 class GovernanceJudge(BaseJudge):
 
