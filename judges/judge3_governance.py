@@ -284,7 +284,7 @@ def _verdict_and_action(
     return "pass", "approve"
 
 
-def judge3_evaluate(
+def GovernanceJudge(
     judge1_result: Dict[str, Any],
     judge2_result: Dict[str, Any],
     metadata: Optional[Dict[str, Any]] = None,
@@ -405,4 +405,4 @@ if __name__ == "__main__":
         "test_evidence_available": True,
         "test_case_count": 5,
     }
-    print(json.dumps(judge3_evaluate(sample_j1, sample_j2, sample_meta, input_id="demo_j3"), indent=2))
+    print(json.dumps(GovernanceJudge(sample_j1, sample_j2, sample_meta, input_id="demo_j3"), indent=2))
