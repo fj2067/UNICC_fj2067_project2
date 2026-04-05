@@ -1,26 +1,24 @@
-from council.moe_council import SafetyCouncil  # or wherever your orchestrator lives
-
 from fastapi import FastAPI
 from pydantic import BaseModel
+from council.orchestrator import run_council
 
-# This starts the web service
 app = FastAPI()
 
-# This defines what the input looks like
 class AgentSubmission(BaseModel):
     agent_name: str
     agent_type: str
     risk_level: str
     prompt: str
 
-# This is the endpoint — the drive-through window
-# When someone sends a POST request to /evaluate
-# this function runs and returns the verdict
+@app.get("/")
+def health_check():
+    return {"status": "ok"}
+
 @app.post("/evaluate")
 def evaluate_agent(submission: AgentSubmission):
-    
-    # This calls Feruza's existing orchestrator
-    result = orchestrator.run(submission)
-    
-    # This sends the JSON verdict back to whoever asked
+    result = run_council(
+        payload=submission.prompt,
+        metadata={"agent_name": submission.agent_name, "agent_type": submission.agent_type},
+        input_id=submission.agent_name
+    )
     return result
