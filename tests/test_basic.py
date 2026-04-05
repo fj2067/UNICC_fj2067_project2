@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def test_imports():
     """Test that all core modules can be imported."""
-    from judges.judge1_compliance import SecurityJudge
+    from judges.judge1_compliance import ComplianceJudge
     from judges.judge3_governance import GovernanceJudge
     from judges.judge2_ethics import EthicsJudge
     from council.moe_council import SafetyCouncil
@@ -22,11 +22,11 @@ def test_imports():
 
 def test_judges_instantiate():
     """Test that all three judges can be created."""
-    from judges.judge1_compliance import SecurityJudge
+    from judges.judge1_compliance import ComplianceJudge
     from judges.judge3_governance import GovernanceJudge
     from judges.judge2_ethics import EthicsJudge
 
-    j1 = SecurityJudge()
+    j1 = ComplianceJudge()
     j2 = GovernanceJudge()
     j3 = EthicsJudge()
 
@@ -37,12 +37,12 @@ def test_judges_instantiate():
 
 def test_council_instantiates():
     """Test that the council can be created with all three judges."""
-    from judges.judge1_compliance import SecurityJudge
+    from judges.judge1_compliance import ComplianceJudge
     from judges.judge3_governance import GovernanceJudge
     from judges.judge2_ethics import EthicsJudge
     from council.moe_council import SafetyCouncil
 
-    judges = [SecurityJudge(), GovernanceJudge(), EthicsJudge()]
+    judges = [ComplianceJudge(), GovernanceJudge(), EthicsJudge()]
     council = SafetyCouncil(judges)
 
     assert council is not None
@@ -50,7 +50,7 @@ def test_council_instantiates():
 
 def test_evaluation_runs():
     """Test that a full evaluation produces a result."""
-    from judges.judge1_compliance import SecurityJudge
+    from judges.judge1_compliance import ComplianceJudge
     from judges.judge3_governance import GovernanceJudge
     from judges.judge2_ethics import EthicsJudge
     from council.moe_council import SafetyCouncil
@@ -59,7 +59,7 @@ def test_evaluation_runs():
 
     sample_text = "This AI agent answers questions about UN humanitarian policy."
 
-    judges = [SecurityJudge(), GovernanceJudge(), EthicsJudge()]
+    judges = [ComplianceJudge(), GovernanceJudge(), EthicsJudge()]
     council = SafetyCouncil(judges)
     results = council.evaluate(sample_text)
     decision = council_decision(results)
