@@ -1,8 +1,4 @@
 #!/bin/bash
 set -e
-
-# Install from the repo root, using full path to be safe
-pip install -r "$(dirname "$0")/requirements.txt"
-
-# Run tests
+pip install -r requirements.txt
 python -m pytest tests/
