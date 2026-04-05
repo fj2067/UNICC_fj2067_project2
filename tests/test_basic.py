@@ -47,29 +47,11 @@ def test_council_instantiates():
 
     assert council is not None
 
-
 def test_evaluation_runs():
-    """Test that a full evaluation produces a result."""
-    from judges.judge1_compliance import ComplianceJudge
-    from judges.judge3_governance import GovernanceJudge
-    from judges.judge2_ethics import EthicsJudge
-    from council.moe_council import SafetyCouncil
-    from council.arbitration import council_decision
-    from output.report import generate_report
-
-    sample_text = "This AI agent answers questions about UN humanitarian policy."
-
-    judges = [ComplianceJudge(), GovernanceJudge(), EthicsJudge()]
-    council = SafetyCouncil(judges)
-    results = council.evaluate(sample_text)
-    decision = council_decision(results)
-    report = generate_report(sample_text, results, decision)
-
-    # Report must exist and not be empty
-    assert report is not None
-    assert len(str(report)) > 0
-
-
+    from council.orchestrator import run_council
+    result = run_council("This AI agent answers questions about UN humanitarian policy.")
+    assert result is not None
+    assert "final_verdict" in result
 def test_arbitration_produces_decision():
     """Test that arbitration returns a valid decision."""
     from council.arbitration import council_decision
