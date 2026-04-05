@@ -1,3 +1,5 @@
+from council.moe_council import SafetyCouncil  # or wherever your orchestrator lives
+
 from fastapi import FastAPI
 from pydantic import BaseModel
 
