@@ -11,9 +11,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def test_imports():
     """Test that all core modules can be imported."""
-    from judges.technical_judge import SecurityJudge
-    from judges.governance_judge import GovernanceJudge
-    from judges.ethics_judge import EthicsJudge
+    from judges.judge1_compliance import SecurityJudge
+    from judges.judge3_governance import GovernanceJudge
+    from judges.judge2_ethics import EthicsJudge
     from council.moe_council import SafetyCouncil
     from council.arbitration import council_decision
     from output.report import generate_report
@@ -22,9 +22,9 @@ def test_imports():
 
 def test_judges_instantiate():
     """Test that all three judges can be created."""
-    from judges.technical_judge import SecurityJudge
-    from judges.governance_judge import GovernanceJudge
-    from judges.ethics_judge import EthicsJudge
+    from judges.judge1_compliance import SecurityJudge
+    from judges.judge3_governance import GovernanceJudge
+    from judges.judge2_ethics import EthicsJudge
 
     j1 = SecurityJudge()
     j2 = GovernanceJudge()
@@ -37,9 +37,9 @@ def test_judges_instantiate():
 
 def test_council_instantiates():
     """Test that the council can be created with all three judges."""
-    from judges.technical_judge import SecurityJudge
-    from judges.governance_judge import GovernanceJudge
-    from judges.ethics_judge import EthicsJudge
+    from judges.judge1_compliance import SecurityJudge
+    from judges.judge3_governance import GovernanceJudge
+    from judges.judge2_ethics import EthicsJudge
     from council.moe_council import SafetyCouncil
 
     judges = [SecurityJudge(), GovernanceJudge(), EthicsJudge()]
@@ -50,9 +50,9 @@ def test_council_instantiates():
 
 def test_evaluation_runs():
     """Test that a full evaluation produces a result."""
-    from judges.technical_judge import SecurityJudge
-    from judges.governance_judge import GovernanceJudge
-    from judges.ethics_judge import EthicsJudge
+    from judges.judge1_compliance import SecurityJudge
+    from judges.judge3_governance import GovernanceJudge
+    from judges.judge2_ethics import EthicsJudge
     from council.moe_council import SafetyCouncil
     from council.arbitration import council_decision
     from output.report import generate_report
