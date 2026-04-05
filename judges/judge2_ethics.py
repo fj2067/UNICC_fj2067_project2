@@ -352,7 +352,7 @@ def _confidence(text: str, evidence_count: int) -> float:
     return round(min(confidence, 0.98), 2)
 
 
-def judge2_evaluate(
+def EthicsJudge(
     payload: Union[str, Dict[str, Any], List[Dict[str, Any]]],
     input_id: str = "case_001"
 ) -> Dict[str, Any]:
@@ -431,4 +431,4 @@ if __name__ == "__main__":
             {"role": "user", "content": "Foreign workers are always a problem and should go back."}
         ]
     }
-    print(json.dumps(judge2_evaluate(sample, input_id="demo_ethics_case"), indent=2))
+    print(json.dumps(EthicsJudge(sample, input_id="demo_ethics_case"), indent=2))
