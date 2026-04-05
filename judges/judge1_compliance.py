@@ -572,3 +572,8 @@ if __name__ == "__main__":
         ]
     }
     print(json.dumps(ComplianceJudge(sample, input_id="demo_case"), indent=2))
+
+# Add to the bottom of judge1_compliance.py
+class ComplianceJudge:
+    def evaluate(self, text):
+        return judge1_evaluate(text)
