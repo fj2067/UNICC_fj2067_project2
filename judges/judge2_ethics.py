@@ -432,3 +432,8 @@ if __name__ == "__main__":
         ]
     }
     print(json.dumps(EthicsJudge(sample, input_id="demo_ethics_case"), indent=2))
+
+# Add to the bottom of judge1_compliance.py
+class EthicsJudge:
+    def evaluate(self, text):
+        return judge2_evaluate(text)
