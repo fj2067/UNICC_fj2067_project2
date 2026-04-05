@@ -1,5 +1,5 @@
 from input_layer.loader import load_input
-from judges.judge1_compliance import SecurityJudge
+from judges.judge1_compliance import ComplianceJudge
 from judges.judge3_governance import GovernanceJudge
 from judges.judge2_ethics import EthicsJudge
 from council.moe_council import SafetyCouncil
@@ -11,7 +11,7 @@ def main():
     text = load_input()
 
     judges = [
-        SecurityJudge(),
+        ComplianceJudge(),
         GovernanceJudge(),
         EthicsJudge()
     ]
