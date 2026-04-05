@@ -406,3 +406,9 @@ if __name__ == "__main__":
         "test_case_count": 5,
     }
     print(json.dumps(GovernanceJudge(sample_j1, sample_j2, sample_meta, input_id="demo_j3"), indent=2))
+
+
+# Add to the bottom of judge1_compliance.py
+class GovernanceJudge:
+    def evaluate(self, text):
+        return judge3_evaluate(text)
