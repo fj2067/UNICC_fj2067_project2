@@ -1,9 +1,9 @@
 import json
 from typing import Dict, Any, Optional
 
-from judges.judge1_compliance import judge1_evaluate
-from judges.judge2_ethics import judge2_evaluate
-from judges.judge3_governance import judge3_evaluate
+from judges.judge1_compliance import ComplianceJudge
+from judges.judge2_ethics import EthicsJudge
+from judges.judge3_governance import GovernanceJudge
 
 
 ACTION_PRIORITY = {
@@ -45,9 +45,9 @@ def run_council(
 ) -> Dict[str, Any]:
     metadata = metadata or {}
 
-    judge1 = judge1_evaluate(payload, input_id=input_id)
-    judge2 = judge2_evaluate(payload, input_id=input_id)
-    judge3 = judge3_evaluate(judge1, judge2, metadata, input_id=input_id)
+    judge1 = ComplianceJudge(payload, input_id=input_id)
+    judge2 = EthicsJudge(payload, input_id=input_id)
+    judge3 = GovernanceJudge(judge1, judge2, metadata, input_id=input_id)
 
     judge_results = [judge1, judge2, judge3]
 
