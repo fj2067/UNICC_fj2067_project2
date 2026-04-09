@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNICC AI Safety Lab</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<!-- ==================== SCREEN 1: INPUT ==================== -->
+<div id="input-screen" class="hero">
+    <h1>AI Safety Evaluation Lab</h1>
+    <p class="subtitle">UNICC Council of Experts &mdash; Multi-Module Safety Assessment</p>
+
+    <div class="search-box">
+        <input type="text" id="repo-url" placeholder="Paste a GitHub repository URL..."
+               value="https://github.com/shixuanlin1/unicc">
+        <button id="evaluate-btn" onclick="startEvaluation()">Evaluate</button>
+    </div>
+
+    <div class="options">
+        <label>
+            <input type="checkbox" id="full-suite"> Run full test suite
+        </label>
+        <label>
+            Domain:
+            <select id="domain">
+                <option value="public_sector">Public Sector</option>
+                <option value="humanitarian">Humanitarian</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="education">Education</option>
+                <option value="internal_assistant">Internal Assistant</option>
+            </select>
+        </label>
+    </div>
+
+    <details class="api-keys-section">
+        <summary>Target Model API Keys (optional)</summary>
+        <p class="api-keys-hint">If the target project requires API keys to run, enter them here.
+        These are passed to the target model only — they are never stored or logged.</p>
+        <div class="api-key-inputs">
+            <label>
+                <span>OPENAI_API_KEY</span>
+                <input type="password" id="openai-key" placeholder="sk-...">
+            </label>
+            <label>
+                <span>ANTHROPIC_API_KEY</span>
+                <input type="password" id="anthropic-key" placeholder="sk-ant-...">
+            </label>
+            <label>
+                <span>Custom env var</span>
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" id="custom-env-name" placeholder="VAR_NAME" style="width: 140px;">
+                    <input type="password" id="custom-env-value" placeholder="value">
+                </div>
+            </label>
+        </div>
+    </details>
+
+    <div class="footer">
+        NYU MASY Capstone &mdash; Spring 2026 &mdash; Powered by Llama Guard 3
+    </div>
+</div>
+
+<!-- ==================== SCREEN 2: PROGRESS ==================== -->
+<div id="progress-screen" class="progress-screen container">
+    <div class="progress-header">
+        <h2>Evaluating <span id="eval-repo-name">repository</span></h2>
+    </div>
+
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <div class="progress-percent" id="progress-percent">0%</div>
+
+    <div class="progress-log" id="progress-log"></div>
+</div>
+
+<!-- ==================== SCREEN 3: REPORT ==================== -->
+<div id="report-screen" class="report-screen container">
+    <a href="#" class="back-link" onclick="resetUI(); return false;">&larr; New Evaluation</a>
+
+    <!-- Overall Score Circle -->
+    <div class="score-circle-container">
+        <div class="score-circle" id="score-circle">
+            <span class="score-value" id="score-value">--</span>
+            <span class="score-label" id="score-label">Safety Score</span>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="summary-grid" id="summary-grid"></div>
+
+    <!-- Category Breakdown Chart -->
+    <div class="report-section">
+        <h3>Safety Category Breakdown</h3>
+        <div class="bar-chart" id="category-chart"></div>
+    </div>
+
+    <!-- Detailed Test Results -->
+    <div class="report-section">
+        <h3>Individual Test Results</h3>
+        <p class="section-hint">Click "View model output" on any test to see the exact text that was evaluated.</p>
+        <div style="overflow-x: auto;">
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Category</th>
+                        <th>Test</th>
+                        <th>Severity</th>
+                        <th>Verdict</th>
+                        <th>Risk</th>
+                    </tr>
+                </thead>
+                <tbody id="results-tbody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="report-section">
+        <h3>Recommendations for Improvement</h3>
+        <div id="recommendations"></div>
+    </div>
+
+    <!-- SLM-Generated Analysis -->
+    <div class="report-section">
+        <h3>AI-Generated Safety Analysis</h3>
+        <div id="ai-analysis" style="font-size: 14px; line-height: 1.7; color: var(--text-secondary);"></div>
+    </div>
+
+    <div class="footer">
+        Generated by UNICC AI Safety Lab &mdash; Council of Experts v2.0
+    </div>
+</div>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>
