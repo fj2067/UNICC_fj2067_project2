@@ -47,7 +47,7 @@ unicc-ai-safety-lab-final/
 ├── ingestion/                 (P2) GitHub cloning, sandboxed execution, static analysis
 ├── judges/                    (P2) SecurityJudge, EthicsJudge, GovernanceJudge
 ├── reporting/                 (P2) Safety report generation + CSV export
-├── test_generation/           (P2) Adversarial prompt library (100+ prompts)
+├── test_generation/           (P2) Adversarial prompt library (25+ prompts)
 ├── web/                       (P3) Flask web interface with SSE progress streaming
 │
 ├── tests/                     (P2+P3) Unit tests + test cases

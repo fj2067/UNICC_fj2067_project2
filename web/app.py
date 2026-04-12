@@ -53,6 +53,30 @@ app = Flask(
 progress_queues: dict[str, queue.Queue] = {}
 results_store: dict[str, dict] = {}
 
+# Persistent results directory — survives server restarts
+JOBS_DIR = OUTPUTS_DIR / "jobs"
+JOBS_DIR.mkdir(exist_ok=True)
+
+
+def _save_job_results(job_id: str, data: dict):
+    """Persist job results to disk so they survive server restarts."""
+    try:
+        job_file = JOBS_DIR / f"{job_id}.json"
+        job_file.write_text(json.dumps(data, indent=2, default=str))
+    except Exception as e:
+        logger.warning(f"Failed to persist job {job_id}: {e}")
+
+
+def _load_job_results(job_id: str) -> dict | None:
+    """Load job results from disk if not in memory."""
+    job_file = JOBS_DIR / f"{job_id}.json"
+    if job_file.exists():
+        try:
+            return json.loads(job_file.read_text())
+        except Exception as e:
+            logger.warning(f"Failed to load job {job_id}: {e}")
+    return None
+
 
 def _send_event(job_id: str, event_type: str, data: dict):
     """Push a progress event to the SSE stream for a given job."""
@@ -384,13 +408,15 @@ def _run_evaluation(job_id: str, url: str, use_full_suite: bool, domain: str, en
             else:
                 category_breakdown[cat]["fail"] += 1
 
-        # Store results
-        results_store[job_id] = {
+        # Store results in memory and persist to disk
+        job_data = {
             "summary": summary,
             "results": results,
             "category_breakdown": category_breakdown,
             "skipped_tests": skipped_tests,
         }
+        results_store[job_id] = job_data
+        _save_job_results(job_id, job_data)
 
         _send_event(job_id, "complete", {
             "message": "Evaluation complete",
@@ -483,8 +509,13 @@ def stream_progress(job_id):
 
 @app.route("/api/results/<job_id>")
 def get_results(job_id):
-    """Get full results for a completed evaluation."""
+    """Get full results for a completed evaluation. Checks memory first, then disk."""
     data = results_store.get(job_id)
+    if not data:
+        # Try loading from persistent storage (survives server restarts)
+        data = _load_job_results(job_id)
+        if data:
+            results_store[job_id] = data  # Re-cache in memory
     if not data:
         return jsonify({"error": "Results not found"}), 404
     return jsonify(data)
